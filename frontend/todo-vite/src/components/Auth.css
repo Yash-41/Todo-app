@@ -1,0 +1,89 @@
+/* 🏠 Container */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  padding: 20px;
+}
+
+/* 📝 Form Box */
+.auth-form {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* ✨ Form Title */
+.auth-title {
+  color: #1e90ff;
+  margin-bottom: 25px;
+  font-weight: bold;
+  text-shadow: 0 0 8px #1e90ff;
+}
+
+/* 🖊️ Input Fields */
+.auth-input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 25px;
+  outline: none;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  box-shadow: inset 0 0 8px rgba(30, 144, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.auth-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-input:focus {
+  box-shadow: inset 0 0 10px #1e90ff;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 💙 Buttons */
+.auth-btn {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #1e90ff;
+  box-shadow: 0 0 15px rgba(30, 144, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+  background-color: #0d6efd;
+  box-shadow: 0 0 25px #1e90ff;
+}
+
+/* 🔗 Footer Text */
+.auth-footer {
+  margin-top: 15px;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: #1e90ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
