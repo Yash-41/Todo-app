@@ -84,9 +84,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
-
-
 app.post("/addtask", verifyToken, async (req, res) => {
   try {
     const { user_id, title, description, status } = req.body;

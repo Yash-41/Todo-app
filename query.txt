@@ -1,0 +1,135 @@
+-- create database myapp_ab;
+-- SELECT * FROM dummy;
+-- CREATE table todo_users(
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(50) NOT NULL,
+-- 	email VARCHAR(50) NOT NULL,
+-- 	password TEXT NOT NULL,
+-- 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- CREATE TABLE todo_tasks(
+--   id SERIAL PRIMARY KEY,
+--   user_id INTEGER REFERENCES todo_users(id) ON DELETE CASCADE,
+--   title VARCHAR(255) NOT NULL,
+--   description TEXT,
+--   status VARCHAR(20) DEFAULT 'pending',
+--   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+-- CREATE OR REPLACE FUNCTION sign_up(user_name TEXT,user_email TEXT,user_password TEXT)
+-- RETURNS VOID AS $$
+-- BEGIN 
+--   INSERT INTO todo_users (name,email,password) 
+--   VALUES (user_name,user_email,user_password);
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- SELECT sign_up('Yash Nehra', 'yash@gmail.com', '12345');
+-- select * from todo_users;
+-- CREATE OR REPLACE FUNCTION add_todo_task(
+--     p_user_id INTEGER,
+--     p_title VARCHAR,
+--     p_description TEXT,
+--     p_status VARCHAR DEFAULT 'pending'
+-- )
+-- RETURNS VOID AS $$
+-- BEGIN
+--     INSERT INTO todo_tasks (user_id, title, description, status)
+--     VALUES (p_user_id, p_title, p_description, p_status);
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+
+   -- DROP FUNCTION login(text,text)
+-- CREATE OR REPLACE FUNCTION login(user_email TEXT, user_password TEXT)
+-- RETURNS TABLE(user_id INT, user_email_out TEXT) AS $$
+-- BEGIN
+--   RETURN QUERY
+--   SELECT tu.id, tu.email
+--   FROM todo_users AS tu
+--   WHERE tu.email = user_email 
+--     AND tu.password = user_password;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+
+
+-- SELECT login('yash@gmail.com', '12345');
+-- CREATE OR REPLACE FUNCTION pending(p_user_id INT)
+-- RETURNS TABLE(
+--   title VARCHAR(255),
+--   description TEXT,
+--   status VARCHAR(20),
+--   created_at TIMESTAMP,
+--   updated_at TIMESTAMP
+-- )
+-- AS $$
+-- BEGIN
+--   -- Check if user exists
+--   IF NOT EXISTS (SELECT 1 FROM todo_users WHERE id = p_user_id) THEN
+--     RAISE EXCEPTION 'User ID % not found in todo_users table', p_user_id;
+--   END IF;
+
+--   -- Return all pending tasks for that user
+--   RETURN QUERY
+--   SELECT t.title, t.description, t.status, t.created_at, t.updated_at
+--   FROM todo_tasks t
+--   WHERE t.status = 'pending' AND t.user_id = p_user_id;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+
+-- SELECT * FROM pending(1);
+
+
+-- -- SELECT * FROM pending('user_101');
+
+-- CREATE OR REPLACE FUNCTION completed(p_user_id INT)
+-- RETURNS TABLE(
+--   title VARCHAR(255),
+--   description TEXT,
+--   status VARCHAR(20),
+--   created_at TIMESTAMP,
+--   updated_at TIMESTAMP
+-- )
+-- AS $$
+-- BEGIN
+--   -- Check if user exists
+--   IF NOT EXISTS (SELECT 1 FROM todo_users WHERE id = p_user_id) THEN
+--     RAISE EXCEPTION 'User ID % not found in todo_users table', p_user_id;
+--   END IF;
+
+--   -- Return all completed tasks for that user
+--   RETURN QUERY
+--   SELECT t.title, t.description, t.status, t.created_at, t.updated_at
+--   FROM todo_tasks t
+--   WHERE t.status = 'completed' AND t.user_id = p_user_id;
+-- END;
+-- $$ LANGUAGE plpgsql;
+-- DROP FUNCTION delete_task(integer,integer)
+-- CREATE OR REPLACE FUNCTION delete_task(p_task_id INT, p_user_id INT)
+-- RETURNS TEXT AS $$
+-- BEGIN
+--   -- Check if user exists
+--   IF NOT EXISTS (SELECT 1 FROM todo_users WHERE id = p_user_id) THEN
+--     RAISE EXCEPTION 'User ID % not found in todo_users table', p_user_id;
+--   END IF;
+
+--   -- Check if the task belongs to that user
+--   IF NOT EXISTS (SELECT 1 FROM todo_tasks WHERE id = p_task_id AND user_id = p_user_id) THEN
+--     RETURN 'Task not found or not authorized to delete';
+--   END IF;
+
+--   -- Delete the task
+--   DELETE FROM todo_tasks
+--   WHERE id = p_task_id AND user_id = p_user_id;
+
+--   RETURN 'Task deleted successfully';
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+
+
+-- SELECT delete_task(7, 101);

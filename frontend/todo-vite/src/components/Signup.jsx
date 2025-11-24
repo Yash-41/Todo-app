@@ -17,7 +17,7 @@ export default function Signup() {
     const newUser = { name, email, password };
 
     try {
-      const res = await axios.post("http://localhost:3000/signup", newUser);
+      const res = await axios.post("http://localhost:3000/api/users/signup", newUser);
       if (res.status === 201) {
         toast.success("Signup successful 🎉 Redirecting...", {
           position: "top-right",
